@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+
+  redis:
+    build:
+      context: ./redis
+    ports:
+      - "6379:6379"
