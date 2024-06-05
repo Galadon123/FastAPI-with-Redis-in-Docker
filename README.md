@@ -5,11 +5,6 @@
 
 This guide will walk you through the process of creating a FastAPI application that interacts with a Redis database. The application will be containerized using Docker and Docker Compose. We will also cover how to test the Redis database using telnet and the API endpoints using `curl`.
 
-### Prerequisites
-
-- Docker and Docker Compose installed on your system.
-- Basic understanding of FastAPI, Docker, and Redis.
-- Python installed on your local machine for development.
 
 ### Directory Structure
 
