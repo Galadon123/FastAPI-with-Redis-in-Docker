@@ -11,7 +11,7 @@ This guide will walk you through the process of creating a FastAPI application t
 Ensure your project directory is structured as follows:
 
 ```
-~/downloads/Restapiredis/redis-api/
+~redis-api/
 ├── docker-compose.yml
 ├── app/
 │   ├── Dockerfile
@@ -156,13 +156,46 @@ services:
     ports:
       - "6379:6379"
 ```
+### Install Docker Compose on Ubuntu
+
+1. First, update your package index:
+
+    ```sh
+    sudo apt update
+    ```
+
+2. Install the required packages to ensure that `curl` and `gnupg` are installed:
+
+    ```sh
+    sudo apt install curl gnupg
+    ```
+
+3. Download the Docker Compose binary into the `/usr/local/bin` directory:
+
+    ```sh
+    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    ```
+
+4. Apply executable permissions to the binary:
+
+    ```sh
+    sudo chmod +x /usr/local/bin/docker-compose
+    ```
+
+5. Verify that `docker-compose` is installed correctly:
+
+    ```sh
+    docker-compose --version
+    ```
+
+We should see the version of Docker Compose printed to the terminal.
 
 ### Step 3: Building and Running the Project
 
 Navigate to your project directory and run the following commands:
 
 ```sh
-cd ~/downloads/Restapiredis/redis-api
+cd redis-api
 sudo docker-compose up --build
 ```
 
@@ -188,13 +221,7 @@ To test if Redis is accessible using telnet, follow these steps:
    telnet localhost 6379
    ```
 
-   You should see something like:
-
-   ```
-   Trying 127.0.0.1...
-   Connected to localhost.
-   Escape character is '^]'.
-   ```
+   - The command telnet localhost 6379 establishes a Telnet connection to the Redis server running on your local machine at port 6379, allowing you to directly issue Redis commands.
 
    To test basic Redis commands, type:
 
@@ -213,7 +240,43 @@ To test if Redis is accessible using telnet, follow these steps:
    - Press `Ctrl + ]`.
    - Type `quit` and press `Enter`.
 
-### Viewing Redis Data
+   ![](./images/out-1.png)
+
+### Step 5: Testing the API Endpoints
+
+Use tools like `curl`, Postman, or any HTTP client of your choice to test the API endpoints.
+
+#### Create a User
+
+```sh
+curl -X POST "http://localhost:8000/users/" -H "Content-Type: application/json" -d '{"name": "John Doe", "email": "john@example.com"}'
+```
+
+#### Get a User
+
+```sh
+curl "http://localhost:8000/users/john@example.com"
+```
+
+#### Update a User
+
+```sh
+curl -X PUT "http://localhost:8000/users/john@example.com" -H "Content-Type: application/json" -d '{"name": "John Smith", "email": "john@example.com"}'
+```
+
+#### Delete a User
+
+```sh
+curl -X DELETE "http://localhost:8000/users/john@example.com"
+```
+
+#### Get All Users
+
+```sh
+curl "http://localhost:8000/users/"
+```
+
+### Step 6: Viewing Redis Data
 
 #### Access Redis CLI in Docker
 
@@ -259,40 +322,6 @@ To exit the Docker container shell, type:
 
 ```sh
 exit
-```
-
-### Step 5: Testing the API Endpoints
-
-Use tools like `curl`, Postman, or any HTTP client of your choice to test the API endpoints.
-
-#### Create a User
-
-```sh
-curl -X POST "http://localhost:8000/users/" -H "Content-Type: application/json" -d '{"name": "John Doe", "email": "john@example.com"}'
-```
-
-#### Get a User
-
-```sh
-curl "http://localhost:8000/users/john@example.com"
-```
-
-#### Update a User
-
-```sh
-curl -X PUT "http://localhost:8000/users/john@example.com" -H "Content-Type: application/json" -d '{"name": "John Smith", "email": "john@example.com"}'
-```
-
-#### Delete a User
-
-```sh
-curl -X DELETE "http://localhost:8000/users/john@example.com"
-```
-
-#### Get All Users
-
-```sh
-curl "http://localhost:8000/users/"
 ```
 
 ### Conclusion
